@@ -49,4 +49,12 @@
 			$this->assertEquals('Access denied. Invalid token provided', $data);
 		}
 
+
+		public function testGetSingleOrder()
+		{
+			$data = $this->paychant->getOrder('ORDER');
+
+			$this->assertEquals(true, is_array($data));
+		}
+
 	}

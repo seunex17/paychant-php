@@ -15,7 +15,7 @@
 	require '../vendor/autoload.php';
 
 	$env = 'sandbox'; // live or sandbox
-	$apiKey = 's999adb82ed274a46a3689e1000526cf7'; // YOUR API KEY
+	$apiKey = 'YOUR API KEY'; // YOUR API KEY
 
 	$paychant = new Paychant($env, $apiKey);
 
