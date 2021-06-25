@@ -10,7 +10,7 @@
 	 * Time: 20:12
 	 */
 
-	namespace Paychant;
+	namespace ZubDev;
 
 	class Paychant {
 
@@ -31,14 +31,6 @@
 
 
 		/**
-		 * Paychant API endpoint
-		 *
-		 * @var
-		 */
-		protected $baseUrl;
-
-
-		/**
 		 * Paychant constructor.
 		 *
 		 * @param $env
@@ -56,16 +48,19 @@
 		 *
 		 * This environment can either be a Sandbox or Live
 		 *
+		 * @param         $param
+		 * @param   null  $arg
+		 *
 		 * @return string
 		 */
-		protected  function environment()
-		{
+		protected function environment($param, $arg = null)
+		: string {
 			if ($this->env === 'live')
 			{
-				return 'https://api-live.paychant.com/v1/order';
+				return "https://api-live.paychant.com/v1/$param/$arg";
 			}
 
-			return 'https://api-sandbox.paychant.com/v1/order';
+			return "https://api-sandbox.paychant.com/v1/$param/$arg";
 		}
 
 
@@ -77,11 +72,11 @@
 		 * @return string
 		 */
 		public function createNewOrder(array $request)
-		{
+		: string {
 			$curl = curl_init();
 
-			curl_setopt_array($curl, array(
-				CURLOPT_URL => $this->environment(),
+			curl_setopt_array($curl, [
+				CURLOPT_URL => $this->environment('order'),
 				CURLOPT_RETURNTRANSFER => true,
 				CURLOPT_ENCODING => '',
 				CURLOPT_MAXREDIRS => 10,
@@ -90,11 +85,11 @@
 				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 				CURLOPT_CUSTOMREQUEST => 'POST',
 				CURLOPT_POSTFIELDS => json_encode($request),
-				CURLOPT_HTTPHEADER => array(
+				CURLOPT_HTTPHEADER => [
 					"Authorization: Token $this->apiKey",
-					'Content-Type: application/json'
-				),
-			));
+					'Content-Type: application/json',
+				],
+			]);
 
 			$response = curl_exec($curl);
 
@@ -107,11 +102,53 @@
 				if ($data->status === 'success')
 				{
 					//* Redirect to payment page
-					header("Location: ".$data->order->payment_url);
+					header("Location: " . $data->order->payment_url);
 					exit();
 				}
 
+				// Throw and error if error occur
 				return $data->message;
+			}
+			catch (\Exception $e)
+			{
+				return $e->getMessage();
+			}
+		}
+
+
+		/**
+		 * Get single order by order id
+		 *
+		 * @param   string  $orderID
+		 *
+		 * @return array|string
+		 */
+		public function getOrder(string $orderID)
+		{
+			$curl = curl_init();
+
+			curl_setopt_array($curl, [
+				CURLOPT_URL => $this->environment('order', $orderID),
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => '',
+				CURLOPT_MAXREDIRS => 10,
+				CURLOPT_TIMEOUT => 0,
+				CURLOPT_FOLLOWLOCATION => true,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_CUSTOMREQUEST => 'GET',
+				CURLOPT_HTTPHEADER => [
+					"Authorization: Token $this->apiKey",
+					'Content-Type: application/json',
+				],
+			]);
+
+			$response = curl_exec($curl);
+
+			curl_close($curl);
+
+			try
+			{
+				return (array) json_decode($response);
 			}
 			catch (\Exception $e)
 			{

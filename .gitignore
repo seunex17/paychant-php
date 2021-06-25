@@ -1,0 +1,8 @@
+vendor/
+# Jetbrains editors (PHPStorm, etc)
+.idea/
+*.iml
+composer.lock
+*.swp
+*.swo
+*~
