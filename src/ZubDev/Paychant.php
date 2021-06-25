@@ -10,7 +10,7 @@
 	 * Time: 20:12
 	 */
 
-	namespace Paychant;
+	namespace ZubDev;
 
 	class Paychant {
 
@@ -58,7 +58,8 @@
 		 *
 		 * @return string
 		 */
-		protected  function environment()
+		protected function environment()
+		: string
 		{
 			if ($this->env === 'live')
 			{
@@ -77,10 +78,10 @@
 		 * @return string
 		 */
 		public function createNewOrder(array $request)
-		{
+		: string {
 			$curl = curl_init();
 
-			curl_setopt_array($curl, array(
+			curl_setopt_array($curl, [
 				CURLOPT_URL => $this->environment(),
 				CURLOPT_RETURNTRANSFER => true,
 				CURLOPT_ENCODING => '',
@@ -90,11 +91,11 @@
 				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 				CURLOPT_CUSTOMREQUEST => 'POST',
 				CURLOPT_POSTFIELDS => json_encode($request),
-				CURLOPT_HTTPHEADER => array(
+				CURLOPT_HTTPHEADER => [
 					"Authorization: Token $this->apiKey",
-					'Content-Type: application/json'
-				),
-			));
+					'Content-Type: application/json',
+				],
+			]);
 
 			$response = curl_exec($curl);
 
@@ -107,10 +108,11 @@
 				if ($data->status === 'success')
 				{
 					//* Redirect to payment page
-					header("Location: ".$data->order->payment_url);
+					header("Location: " . $data->order->payment_url);
 					exit();
 				}
 
+				// Throw and error if error occur
 				return $data->message;
 			}
 			catch (\Exception $e)
