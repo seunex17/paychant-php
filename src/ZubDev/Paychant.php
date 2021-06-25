@@ -54,8 +54,7 @@
 		 * @return string
 		 */
 		protected function environment($param, $arg = null)
-		: string
-		{
+		: string {
 			if ($this->env === 'live')
 			{
 				return "https://api-live.paychant.com/v1/$param/$arg";

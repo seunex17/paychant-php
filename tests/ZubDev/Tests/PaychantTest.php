@@ -37,12 +37,12 @@
 
 
 		/**
-		 *	Test error response in creating of order
+		 *   Test error response in creating of order
 		 */
 		public function testCreateOrderForAccessDenied()
 		{
 			$request = [
-				'amount' => 100
+				'amount' => 100,
 			];
 			$data = $this->paychant->createNewOrder($request);
 
