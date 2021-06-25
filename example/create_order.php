@@ -10,12 +10,12 @@
 	 * Time: 20:21
 	 */
 
-	use Paychant\Paychant;
+	use ZubDev\Paychant;
 
-	require  '../src/Paychant.php';
+	require '../src/ZubDev/Paychant.php';
 
 	$env = 'sandbox'; // live or sandbox
-	$apiKey = 's999adb82ed274a46a3689e1000526cf7'; // YOUR API KEY
+	$apiKey = 's999adb82ed274a46a3689e1000526cf70'; // YOUR API KEY
 
 	$paychant = new Paychant($env, $apiKey);
 

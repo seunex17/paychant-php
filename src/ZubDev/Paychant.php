@@ -10,7 +10,7 @@
 	 * Time: 20:12
 	 */
 
-	namespace Paychant;
+	namespace ZubDev;
 
 	class Paychant {
 
@@ -59,6 +59,7 @@
 		 * @return string
 		 */
 		protected function environment()
+		: string
 		{
 			if ($this->env === 'live')
 			{
@@ -77,7 +78,7 @@
 		 * @return string
 		 */
 		public function createNewOrder(array $request)
-		{
+		: string {
 			$curl = curl_init();
 
 			curl_setopt_array($curl, [
