@@ -56,20 +56,20 @@ require './vendor/autoload.php';
 $paychant = new Paychant('ENVIRONMENT', 'YOUR API KEY');
 
 // Create new transaction
-	$request = [
-		'amount' => 100, // Product price
-		'currency' => 'NGN', // Available current are (NGN, USD, GBP, EUR, AUD, CAD, JPY, CNY)
-		'title' => 'Sample product name', // Title of the order
-		'payer_info' => 'johndoe@example.com', // Payer information
-		'description' => 'Sample order description', // Description your order
-		'cancel_url' => 'https://example.com/cancel', // Page to redirect to when user cancel payment
-		'success_url' => 'https://example.com/success', // Page to redirect to for payment verification
-		'callback_url' => 'https://example.com/webhook', // Webhook page for instant notification of order status
-		//'token' => '', // If you will to generate a custom token you can fill in this Max 50
-	];
+$request = [
+   'amount' => 100, // Product price
+   'currency' => 'NGN', // Available current are (NGN, USD, GBP, EUR, AUD, CAD, JPY, CNY)
+   'title' => 'Sample product name', // Title of the order
+   'payer_info' => 'johndoe@example.com', // Payer information
+   'description' => 'Sample order description', // Description your order
+   'cancel_url' => 'https://example.com/cancel', // Page to redirect to when user cancel payment
+   'success_url' => 'https://example.com/success', // Page to redirect to for payment verification
+   'callback_url' => 'https://example.com/webhook', // Webhook page for instant notification of order status
+   //'token' => '', // If you will to generate a custom token you can fill in this Max 50
+];
 
-	// Send request to payment page
-	$res = $paychant->createNewOrder($request);
+// Send request to payment page
+$paychant->createNewOrder($request);
 ```
 
 ## Get order
@@ -89,5 +89,5 @@ echo '</pre>';
 ```
 ---
 
-#Contributing
+##Contributing
 #### Contributing is highly welcome fix errors add new features
