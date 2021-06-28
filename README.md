@@ -7,6 +7,7 @@
     * [Composer autoloader](#composer-autoloader)
     * [Create new order](#create-new-order)
     * [Get order](#get-order)
+    * [Get all orders](#get-all-orders)
 * [Contributing](#contributing)    
 
 - - -
@@ -81,7 +82,23 @@ use ZubDev\Paychant;
 require './vendor/autoload.php';
 
 $paychant = new Paychant('ENVIRONMENT', 'YOUR API KEY');
-$data = $paychant->getOrder('55IA55MU');
+$data = $paychant->getOrder('ORDER ID');
+
+echo '<pre>';
+print_r($data);
+echo '</pre>';
+```
+
+## Get all orders
+```php
+<?php
+
+use ZubDev\Paychant;
+
+require './vendor/autoload.php';
+
+$paychant = new Paychant('ENVIRONMENT', 'YOUR API KEY');
+$data = $paychant->listOrders();
 
 echo '<pre>';
 print_r($data);
@@ -89,5 +106,5 @@ echo '</pre>';
 ```
 ---
 
-##Contributing
+# Contributing
 #### Contributing is highly welcome fix errors add new features
