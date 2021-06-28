@@ -155,5 +155,46 @@
 				return $e->getMessage();
 			}
 		}
+
+
+		/**
+		 * List all orders
+		 *
+		 * This method retrieve all transaction carried out
+		 *
+		 * @return array|string
+		 */
+		public function listOrders()
+		{
+			$curl = curl_init();
+
+			curl_setopt_array($curl, [
+				CURLOPT_URL => $this->environment('orders'),
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => '',
+				CURLOPT_MAXREDIRS => 10,
+				CURLOPT_TIMEOUT => 0,
+				CURLOPT_FOLLOWLOCATION => true,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_CUSTOMREQUEST => 'GET',
+				CURLOPT_HTTPHEADER => [
+					"Authorization: Token $this->apiKey",
+					'Content-Type: application/json',
+				],
+			]);
+
+			$response = curl_exec($curl);
+
+			curl_close($curl);
+
+			try
+			{
+				return (array) json_decode($response);
+			}
+			catch (\Exception $e)
+			{
+				return $e->getMessage();
+			}
+		}
 	}
  
