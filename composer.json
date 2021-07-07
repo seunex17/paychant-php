@@ -19,7 +19,8 @@
 	"require": {
 		"php": ">=7.1.0",
 		"ext-curl": "*",
-		"ext-json": "*"
+		"ext-json": "*",
+		"guzzlehttp/guzzle": "^7.3"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^9"
