@@ -71,6 +71,11 @@ $request = [
 
 // Send request to payment page
 $paychant->createNewOrder($request);
+
+// For debugging if get blank screen
+// Please uncomment below code
+
+// print_r($paychant->createNewOrder($request));
 ```
 
 ## Get order

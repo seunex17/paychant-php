@@ -12,6 +12,9 @@
 
 	namespace ZubDev;
 
+	use GuzzleHttp\Client;
+	use GuzzleHttp\Exception\GuzzleException;
+
 	class Paychant {
 
 		/**
@@ -31,6 +34,14 @@
 
 
 		/**
+		 * declare guzzle client
+		 *
+		 * @var
+		 */
+		protected $client;
+
+
+		/**
 		 * Paychant constructor.
 		 *
 		 * @param $env
@@ -40,6 +51,13 @@
 		{
 			$this->apiKey = $apiKey;
 			$this->env = $env;
+
+			$this->client = new Client([
+				'base_url' => 'https://api-sandbox.paychant.com/v1',
+				'headers' => [
+					"Authorization" => "Token $this->apiKey",
+				],
+			]);
 		}
 
 
@@ -69,49 +87,30 @@
 		 *
 		 * @param   array  $request
 		 *
-		 * @return string
+		 * @return string|array
 		 */
 		public function createNewOrder(array $request)
-		: string {
-			$curl = curl_init();
-
-			curl_setopt_array($curl, [
-				CURLOPT_URL => $this->environment('order'),
-				CURLOPT_RETURNTRANSFER => true,
-				CURLOPT_ENCODING => '',
-				CURLOPT_MAXREDIRS => 10,
-				CURLOPT_TIMEOUT => 0,
-				CURLOPT_FOLLOWLOCATION => true,
-				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-				CURLOPT_CUSTOMREQUEST => 'POST',
-				CURLOPT_POSTFIELDS => json_encode($request),
-				CURLOPT_HTTPHEADER => [
-					"Authorization: Token $this->apiKey",
-					'Content-Type: application/json',
-				],
-			]);
-
-			$response = curl_exec($curl);
-
-			curl_close($curl);
-
+		{
 			try
 			{
-				$data = json_decode($response);
+				// Send a post request to paychant endpoint
+				$response = $this->client->post($this->environment('order'), [
+					'json' => $request,
+				]);
 
-				if ($data->status === 'success')
-				{
-					//* Redirect to payment page
-					header("Location: " . $data->order->payment_url);
-					exit();
-				}
+				$data = json_decode($response->getBody());
 
-				// Throw and error if error occur
-				return $data->message;
+				// Redirect to payment page
+				header("Location: " . $data->order->payment_url);
+				exit();
 			}
-			catch (\Exception $e)
+			catch (GuzzleException $exception)
 			{
-				return $e->getMessage();
+				$response = $exception->getResponse()
+					->getBody()
+					->getContents();
+
+				return json_decode($response, JSON_PRETTY_PRINT);
 			}
 		}
 
@@ -121,38 +120,24 @@
 		 *
 		 * @param   string  $orderID
 		 *
-		 * @return array|string
+		 * @return array
 		 */
 		public function getOrder(string $orderID)
-		{
-			$curl = curl_init();
-
-			curl_setopt_array($curl, [
-				CURLOPT_URL => $this->environment('order', $orderID),
-				CURLOPT_RETURNTRANSFER => true,
-				CURLOPT_ENCODING => '',
-				CURLOPT_MAXREDIRS => 10,
-				CURLOPT_TIMEOUT => 0,
-				CURLOPT_FOLLOWLOCATION => true,
-				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-				CURLOPT_CUSTOMREQUEST => 'GET',
-				CURLOPT_HTTPHEADER => [
-					"Authorization: Token $this->apiKey",
-					'Content-Type: application/json',
-				],
-			]);
-
-			$response = curl_exec($curl);
-
-			curl_close($curl);
-
+		: array {
 			try
 			{
-				return (array) json_decode($response);
+				// Send a get request to payment api endpoint
+				$response = $this->client->get($this->environment('order', $orderID));
+
+				return json_decode($response->getBody(), JSON_PRETTY_PRINT);
 			}
-			catch (\Exception $e)
+			catch (GuzzleException $exception)
 			{
-				return $e->getMessage();
+				$response = $exception->getResponse()
+					->getBody()
+					->getContents();
+
+				return json_decode($response, JSON_PRETTY_PRINT);
 			}
 		}
 
@@ -162,38 +147,23 @@
 		 *
 		 * This method retrieve all transaction carried out
 		 *
-		 * @return array|string
+		 * @return mixed
 		 */
 		public function listOrders()
 		{
-			$curl = curl_init();
-
-			curl_setopt_array($curl, [
-				CURLOPT_URL => $this->environment('orders'),
-				CURLOPT_RETURNTRANSFER => true,
-				CURLOPT_ENCODING => '',
-				CURLOPT_MAXREDIRS => 10,
-				CURLOPT_TIMEOUT => 0,
-				CURLOPT_FOLLOWLOCATION => true,
-				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-				CURLOPT_CUSTOMREQUEST => 'GET',
-				CURLOPT_HTTPHEADER => [
-					"Authorization: Token $this->apiKey",
-					'Content-Type: application/json',
-				],
-			]);
-
-			$response = curl_exec($curl);
-
-			curl_close($curl);
-
 			try
 			{
-				return (array) json_decode($response);
+				$response = $this->client->get($this->environment('orders'));
+
+				return json_decode($response->getBody(), JSON_PRETTY_PRINT);
 			}
-			catch (\Exception $e)
+			catch (GuzzleException $exception)
 			{
-				return $e->getMessage();
+				$response = $exception->getResponse()
+					->getBody()
+					->getContents();
+
+				return json_decode($response, JSON_PRETTY_PRINT);
 			}
 		}
 	}

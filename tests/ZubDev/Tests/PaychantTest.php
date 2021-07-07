@@ -46,10 +46,13 @@
 			];
 			$data = $this->paychant->createNewOrder($request);
 
-			$this->assertEquals('Access denied. Invalid token provided', $data);
+			$this->assertContains('Access denied. Invalid token provided', $data);
 		}
 
 
+		/**
+		 *	Test for single order function
+		 */
 		public function testGetSingleOrder()
 		{
 			$data = $this->paychant->getOrder('ORDER');
