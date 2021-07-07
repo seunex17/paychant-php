@@ -33,9 +33,10 @@
 	];
 
 	// Send request to payment page
-	$res = $paychant->createNewOrder($request);
+	$paychant->createNewOrder($request);
 
-	echo '<pre>';
-	print_r($res);
-	echo '</pre>';
+	// For debugging if get blank screen
+	// Please uncomment below code
+
+	// print_r($paychant->createNewOrder($request));
  
