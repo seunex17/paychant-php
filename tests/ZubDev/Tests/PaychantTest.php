@@ -60,4 +60,15 @@
 			$this->assertEquals(true, is_array($data));
 		}
 
+
+		/**
+		 *	Test get currency tate method
+		 */
+		public function testGetExchangeRates()
+		{
+			$data = $this->paychant->getExchangeRates();
+
+			$this->assertEquals('success', $data['status']);
+		}
+
 	}

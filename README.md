@@ -8,6 +8,7 @@
     * [Create new order](#create-new-order)
     * [Get order](#get-order)
     * [Get all orders](#get-all-orders)
+    * [Get exchange rates](#get-exchange-rates)
 * [Contributing](#contributing)    
 
 - - -
@@ -104,6 +105,22 @@ require './vendor/autoload.php';
 
 $paychant = new Paychant('ENVIRONMENT', 'YOUR API KEY');
 $data = $paychant->listOrders();
+
+echo '<pre>';
+print_r($data);
+echo '</pre>';
+```
+
+## Get exchange rates
+```php
+<?php
+
+use ZubDev\Paychant;
+
+require './vendor/autoload.php';
+
+$paychant = new Paychant('ENVIRONMENT', 'YOUR API KEY');
+$data = $paychant->getExchangeRates();
 
 echo '<pre>';
 print_r($data);

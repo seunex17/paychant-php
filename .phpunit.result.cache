@@ -1,1 +1,1 @@
-{"version":1,"defects":{"PaychantTest::testCreateOrderForAccessDenied":3,"PaychantTest::testGetSingleOrder":3},"times":{"PaychantTest::testCreateOrderForAccessDenied":1.242,"PaychantTest::testGetSingleOrder":0.594}}
+{"version":1,"defects":{"PaychantTest::testCreateOrderForAccessDenied":3,"PaychantTest::testGetSingleOrder":3,"PaychantTest::testGetExchangeRates":4},"times":{"PaychantTest::testCreateOrderForAccessDenied":1.242,"PaychantTest::testGetSingleOrder":0.594,"PaychantTest::testGetExchangeRates":4.355}}
