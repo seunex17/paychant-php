@@ -166,5 +166,29 @@
 				return json_decode($response, JSON_PRETTY_PRINT);
 			}
 		}
+
+
+		/**
+		 * Get real time currency exchange rates
+		 *
+		 * @return mixed
+		 */
+		public function getExchangeRates()
+		{
+			try
+			{
+				$response = $this->client->get($this->environment('rates'));
+
+				return json_decode($response->getBody(), JSON_PRETTY_PRINT);
+			}
+			catch (GuzzleException $exception)
+			{
+				$response = $exception->getResponse()
+					->getBody()
+					->getContents();
+
+				return json_decode($response, JSON_PRETTY_PRINT);
+			}
+		}
 	}
  
