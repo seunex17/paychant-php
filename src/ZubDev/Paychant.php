@@ -190,5 +190,41 @@
 				return json_decode($response, JSON_PRETTY_PRINT);
 			}
 		}
+
+
+		/**
+		 * Paychant webhook
+		 *
+		 * @param   string  $secret
+		 *
+		 * @return mixed|void
+		 */
+		public function webhook(string $secret)
+		{
+			// Only a post method and headers that contain HTTP_PAYCHANT_SIGNATURE will be allowed
+			if ((strtoupper($_SERVER['REQUEST_METHOD']) != 'POST' ) || !array_key_exists('HTTP_PAYCHANT_SIGNATURE', $_SERVER) ) {
+				exit();
+			}
+
+			// Retrieve the request's body
+			$input = @file_get_contents("php://input");
+
+			// Remove escape slashes
+			$inputClean = stripslashes($input);
+
+			// SET the SECRET KEY
+			define('PAYCHANT_WEBHOOK_SECRET_KEY', $secret);
+
+			// Validate event
+			if($_SERVER['HTTP_PAYCHANT_SIGNATURE'] !== hash_hmac('sha512', $inputClean, PAYCHANT_WEBHOOK_SECRET_KEY)){
+				exit();
+			}
+
+			// Return status code 200 quickly
+			http_response_code(200);
+
+			// Do something with the event
+			return json_decode($input);
+		}
 	}
  
