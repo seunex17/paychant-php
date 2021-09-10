@@ -9,34 +9,51 @@
     * [Get order](#get-order)
     * [Get all orders](#get-all-orders)
     * [Get exchange rates](#get-exchange-rates)
-* [Contributing](#contributing)    
+    * [Set webhook](#set-webhook)
+* [Contributing](#contributing)
 
 - - -
+
 # Introduction
-Paychant is a cryptocurrency payment gateway. Founded in 2019, our mission is to increase the adoption of cryptocurrency payment in Africa, providing solutions where cryptocurrencies are spent like cash, a platform that lets buyers use their favorite cryptocurrency to pay sellers (merchants).
-We offer businesses an entire cryptocurrency ecosystem by providing full payment integration and instant payment settlements for merchants in either Nigerian Naira, Bitcoin, or Ethereum.
+
+Paychant is a cryptocurrency payment gateway. Founded in 2019, our mission is to increase the adoption of cryptocurrency
+payment in Africa, providing solutions where cryptocurrencies are spent like cash, a platform that lets buyers use their
+favorite cryptocurrency to pay sellers (merchants). We offer businesses an entire cryptocurrency ecosystem by providing
+full payment integration and instant payment settlements for merchants in either Nigerian Naira, Bitcoin, or Ethereum.
 
 ### Cryptocurrency Payment Gateway API for Merchant
-The Paychant API is designed for businesses that want to accept cryptocurrencies as a means of payment on their platforms without extensive technical expertise and risks related to cryptocurrency exchange rate fluctuations. The API is, therefore, suitable for applications from basic projects, to enterprise-level integration.
 
-Paychant payment gateway provides a process of accepting Bitcoin, Ethereum, and Tether while generating unique addresses for each created order, real-time exchange rates for the payer, and a dashboard system for merchants to manage payment transactions and payouts.
+The Paychant API is designed for businesses that want to accept cryptocurrencies as a means of payment on their
+platforms without extensive technical expertise and risks related to cryptocurrency exchange rate fluctuations. The API
+is, therefore, suitable for applications from basic projects, to enterprise-level integration.
 
-The implementation of our API for payment processing on websites is very straightforward. The API credentials for connectivity can be generated from the Paychant merchant dashboard. We have also provided a Sandbox environment, where the API integration can be tested using Bitcoin and Ethereum testnet tokens, this will help developers performs test transactions before going to live mode.
+Paychant payment gateway provides a process of accepting Bitcoin, Ethereum, and Tether while generating unique addresses
+for each created order, real-time exchange rates for the payer, and a dashboard system for merchants to manage payment
+transactions and payouts.
+
+The implementation of our API for payment processing on websites is very straightforward. The API credentials for
+connectivity can be generated from the Paychant merchant dashboard. We have also provided a Sandbox environment, where
+the API integration can be tested using Bitcoin and Ethereum testnet tokens, this will help developers performs test
+transactions before going to live mode.
 
 Website (https://paychant.com)
 
 # Installation
+
 ## Via Composer
+
 ### Recommended
+
 ```
 composer require seunex17/paychant-php
 ```
 
-
 - - -
 
 # Usage
+
 ## Composer autoloader
+
 ```php
 <?php
 
@@ -48,6 +65,7 @@ $paychant = new Paychant('ENVIRONMENT', 'YOUR API KEY');
 ```
 
 ## Create new order
+
 ```php
 <?php
 
@@ -73,13 +91,14 @@ $request = [
 // Send request to payment page
 $paychant->createNewOrder($request);
 
-// For debugging if get blank screen
+// For debugging if you get blank screen
 // Please uncomment below code
 
 // print_r($paychant->createNewOrder($request));
 ```
 
 ## Get order
+
 ```php
 <?php
 
@@ -96,6 +115,7 @@ echo '</pre>';
 ```
 
 ## Get all orders
+
 ```php
 <?php
 
@@ -112,6 +132,7 @@ echo '</pre>';
 ```
 
 ## Get exchange rates
+
 ```php
 <?php
 
@@ -126,7 +147,29 @@ echo '<pre>';
 print_r($data);
 echo '</pre>';
 ```
+
+## Set webhook
+
+```php
+<?php
+
+use ZubDev\Paychant;
+
+require './vendor/autoload.php';
+
+$paychant = new Paychant('ENVIRONMENT', 'YOUR API KEY');
+$data = $paychant->getExchangeRates();
+$webhookKey = 'YOUR WEBHOOK SECRET KEY';
+
+/*
+* Webhook will always return an array
+*/
+
+var_dump($paychant->webhook($webhookKey)); // This return an array
+```
+
 ---
 
 # Contributing
+
 #### Contributing is highly welcome fix errors add new features
