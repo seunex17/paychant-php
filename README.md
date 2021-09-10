@@ -9,7 +9,7 @@
     * [Get order](#get-order)
     * [Get all orders](#get-all-orders)
     * [Get exchange rates](#get-exchange-rates)
-    * [Set webhook](#webhook)
+    * [Set webhook](#set-webhook)
 * [Contributing](#contributing)
 
 - - -
