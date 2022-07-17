@@ -157,9 +157,8 @@ use ZubDev\Paychant;
 
 require './vendor/autoload.php';
 
-$paychant = new Paychant('ENVIRONMENT', 'YOUR API KEY');
-$data = $paychant->getExchangeRates();
 $webhookKey = 'YOUR WEBHOOK SECRET KEY';
+$paychant = new Paychant('ENVIRONMENT', 'YOUR API KEY');
 
 /*
 * Webhook will always return an array
